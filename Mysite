@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Responsive Webpage with Animation</title>
+  <style>
+    /* Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      background: #f4f4f4;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: #333;
+      color: #fff;
+      padding: 1rem;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav .menu {
+      display: flex;
+      gap: 1rem;
+      transition: max-height 0.4s ease-in-out;
+      overflow: hidden;
+    }
+
+    nav .menu a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .toggle-btn {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .hero {
+      background: url('https://via.placeholder.com/1200x400') no-repeat center center/cover;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-shadow: 1px 1px 3px black;
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .card {
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    .card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* Responsive Navigation */
+    @media (max-width: 768px) {
+      .menu {
+        flex-direction: column;
+        max-height: 0;
+      }
+
+      .menu.show {
+        max-height: 200px;
+      }
+
+      .toggle-btn {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <nav>
+        <h1>MySite</h1>
+        <div class="toggle-btn" onclick="toggleMenu()">☰</div>
+        <div class="menu" id="menu">
+          <a href="#">Home</a>
+          <a href="#">About</a>
+          <a href="#">Services</a>
+          <a href="#">Contact</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h2>Welcome to Our Responsive Site</h2>
+  </section>
+
+  <div class="container">
+    <section class="grid">
+      <div class="card"> 
+        <h3>Card 1</h3>
+        <p>This content resizes based on the screen width using CSS Grid and media queries.</p>
+      </div>
+      <div class="card">
+        <h3>Card 2</h3>
+        <p>Flexible layout for mobile, tablet, and desktop views.</p>
+      </div>
+      <div class="card">
+        <h3>Card 3</h3>
+        <p>Responsive design improves user experience on all devices.</p>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 MySite. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Toggle Mobile Menu
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('show');
+    }
+
+    // Scroll Animation for Cards
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, {
+      threshold: 0.2
+    });
+
+    document.querySelectorAll('.card').forEach(card => {
+      observer.observe(card);
+    });
+  </script>
+</body>
+</html>
